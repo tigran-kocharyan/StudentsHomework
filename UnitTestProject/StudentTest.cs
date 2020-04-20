@@ -91,5 +91,29 @@ namespace UnitTestProject
             Assert.AreEqual(result3, expected3);
             Assert.AreEqual(result4, expected4);
         }
+
+        /// <summary>
+        /// Проверяем корректность форматирования и ToString().
+        /// </summary>
+        [TestMethod]
+        public void TestFormatting()
+        {
+            // Создаем студентов для сравнения.
+            Student studentA = new Student("Student", Faculty.CS, 4);
+            Student studentB = new Student("Student", Faculty.CS, 4.1);
+            Student studentC = new Student("Student", Faculty.CS, 4.01);
+            Student studentD = new Student("Student", Faculty.CS, 4.001);
+            Student studentE = new Student("Student", Faculty.CS, 4.0001);
+
+            // Проверяем, чтобы форматирование в ToString() было разное в зависимости
+            // от double в параметрах.
+            Assert.AreNotEqual(studentA.ToString(), studentB.ToString());
+            Assert.AreNotEqual(studentA.ToString(), studentC.ToString());
+            Assert.AreNotEqual(studentA.ToString(), studentD.ToString());
+
+            // Так как форматирование округляет до 3 знаком после запятой =>
+            // ToString() от studentA и studentE должно быть одинаковыми.
+            Assert.AreEqual(studentA.ToString(), studentE.ToString());
+        }
     }
 }
