@@ -70,13 +70,19 @@ namespace StudentGenerator
             {
                 Console.WriteLine(students[i].ToString());
             }
-
-            // using Newtonsoft.Json - помощник в реализации сериализации.
-            // Создаем файл JSON в папке с .sln именем students.json.
-            using (JsonWriter fs = new JsonTextWriter(new StreamWriter("../../../students.json")))
+            try
             {
-                JsonSerializer jsonSerializer = new JsonSerializer();
-                jsonSerializer.Serialize(fs, students);
+                // using Newtonsoft.Json - помощник в реализации сериализации.
+                // Создаем файл JSON в папке с .sln именем students.json.
+                using (JsonWriter fs = new JsonTextWriter(new StreamWriter("../../../../students.json")))
+                {
+                    JsonSerializer jsonSerializer = new JsonSerializer();
+                    jsonSerializer.Serialize(fs, students);
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Problems with File...");
             }
 
             // Альтернатива Environment.NewLine - "\n".

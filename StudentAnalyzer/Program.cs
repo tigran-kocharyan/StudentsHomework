@@ -35,25 +35,47 @@ namespace StudentAnalyzer
         /// </summary>
         /// <param name="students"></param>
         /// <returns></returns>
-        public static List<Student> ReadJSON(List<Student> students)
-        {
-            // using Newtonsoft.Json - помощник в десериализации.
-            // Альтернатива - стандартный десериализатор из System.Text.
-            using (JsonReader fs = new JsonTextReader(new StreamReader("../../../students.json")))
-            {
-                JsonSerializer jsonSerializer = new JsonSerializer();
-                students = jsonSerializer.Deserialize(fs, typeof(List<Student>)) as List<Student>;
-            }
+        //public static List<Student> ReadJSON(List<Student> studentsRead)
+        //{
+        //    try
+        //    {
+        //        // using Newtonsoft.Json - помощник в десериализации.
+        //        // Альтернатива - стандартный десериализатор из System.Text.
+        //        using (JsonReader fs = new JsonTextReader(new StreamReader("../../../../students.json")))
+        //        {
+        //            JsonSerializer jsonSerializer = new JsonSerializer();
+        //            studentsRead = jsonSerializer.Deserialize(fs, typeof(List<Student>)) as List<Student>;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        Console.WriteLine("Problems with File...");
+        //    }
 
-            // Возвращаем полученный список студентов.
-            return students;
-        }
+        //    // Возвращаем полученный список студентов.
+        //    return studentsRead;
+        //}
 
         static void Main(string[] args)
         {
             // Объявляем список объекторв Student.
+            // В прошлом коммите я декомпозировал эту часть, но после перехода на .Core,
+            // появились проблемы и я вернул сюда десериализацию.
             List<Student> students = new List<Student>();
-            ReadJSON(students);
+            try
+            {
+                // using Newtonsoft.Json - помощник в десериализации.
+                // Альтернатива - стандартный десериализатор из System.Text.
+                using (JsonReader fs = new JsonTextReader(new StreamReader("../../../../students.json")))
+                {
+                    JsonSerializer jsonSerializer = new JsonSerializer();
+                    students = jsonSerializer.Deserialize(fs, typeof(List<Student>)) as List<Student>;
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Problems with File...");
+            }
 
             // Выводим полученный из десериалации список.
             ListShow(students);
@@ -107,6 +129,8 @@ namespace StudentAnalyzer
             {
                 Console.WriteLine("ERROR while aggregation or descending...");
             }
+
+            Console.ReadLine();
         }
     }
 }
